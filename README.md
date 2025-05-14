@@ -40,15 +40,51 @@
 ```bash
 git clone https://github.com/udaypandey01/miniecommerce.git
 cd miniecommerce
+```
 
 ### 2. Install the Dependencies
+
 ```bash
 npm install
+```
 
-### 3. Generate the Prisma 
+### 3. Environment Setup
+
+Create a `.env` file in the root directory with the following variables:
+
+```bash
+# Cloudinary Config
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+# Google Gemini API Key
+GEMINI_API_KEY=your_gemini_api_key
+
+# JWT Secret
+JWT_SECRET=your_jwt_secret_key
+
+# Database URL
+DATABASE_URL=your_postgres_database_url
+```
+
+### 4. Generate the Prisma Client
+
 ```bash
 npx prisma generate
+```
 
-### 1. Run the project
+### 5. Run the Project
+
 ```bash
 npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+---
+
+
+## 👨‍💻 Author
+
+- **Uday Pandey** - [GitHub Profile](https://github.com/udaypandey01)
