@@ -5,6 +5,7 @@ import product from "./product";
 
 const app = new Hono().basePath("/api");
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const routes = app
     .route("/user", user)
     .route("/product", product);
