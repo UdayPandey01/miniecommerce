@@ -41,11 +41,14 @@
 git clone https://github.com/udaypandey01/miniecommerce.git
 cd miniecommerce
 
+### 2. Install the Dependencies
 ```bash
 npm install
 
+### 3. Generate the Prisma 
 ```bash
 npx prisma generate
 
+### 1. Run the project
 ```bash
 npm run dev
