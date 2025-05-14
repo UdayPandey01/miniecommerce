@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { v2 as cloudinary } from "cloudinary";
-import { prisma } from "@/lib/db";
+import  prisma  from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 

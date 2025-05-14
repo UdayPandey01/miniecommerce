@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { prisma } from '@/lib/db';
+import  prisma  from '@/lib/db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
