@@ -40,3 +40,12 @@
 ```bash
 git clone https://github.com/udaypandey01/miniecommerce.git
 cd miniecommerce
+
+```bash
+npm install
+
+```bash
+npx prisma generate
+
+```bash
+npm run dev
