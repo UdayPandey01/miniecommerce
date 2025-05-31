@@ -62,6 +62,7 @@ export default function AuthForm() {
       } else {
         await handleSignup();
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       setError(err?.response?.data?.message || err.message);
