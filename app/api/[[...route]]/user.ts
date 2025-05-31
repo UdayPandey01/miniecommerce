@@ -46,7 +46,6 @@ app.post('/sign-up', async (c) => {
   }
 });
 
-// ✅ SIGN-IN Route
 app.post('/sign-in', async (c) => {
   try {
     const { email, password } = await c.req.json();

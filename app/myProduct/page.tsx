@@ -71,7 +71,6 @@ export default function ProductsPage() {
         return;
       }
 
-      // Contextual (Gemini) search for longer queries
       try {
         setSearching(true);
         const res = await fetch("/api/product/gemini-search", {
