@@ -2,8 +2,11 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { ShoppingBag, Mail, Lock, User } from "lucide-react";
 
 export default function AuthForm() {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,8 +19,9 @@ export default function AuthForm() {
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setIsAuthenticated(true);
+      router.push("/");
     }
-  }, []);
+  }, [router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,11 +29,7 @@ export default function AuthForm() {
   };
 
   const handleSignup = async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { data: signupData } = await axios.post(
-      "/api/user/sign-up",
-      formData
-    );
+    await axios.post("/api/user/sign-up", formData);
     await handleSignin();
   };
 
@@ -41,6 +41,7 @@ export default function AuthForm() {
     localStorage.setItem("token", data.token);
     localStorage.setItem("userId", data.user.id);
     setIsAuthenticated(true);
+    router.push("/");
   };
 
   const handleLogout = () => {
@@ -61,7 +62,6 @@ export default function AuthForm() {
       } else {
         await handleSignup();
       }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
       setError(err?.response?.data?.message || err.message);
@@ -70,9 +70,9 @@ export default function AuthForm() {
 
   if (isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
         <div className="text-center space-y-4">
-          <h2 className="text-3xl font-bold text-white">Welcome!</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Welcome!</h2>
           <button
             onClick={handleLogout}
             className="py-2 px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg transition"
@@ -85,82 +85,102 @@ export default function AuthForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-transparent p-6">
-      <div className="relative w-full max-w-md p-8 rounded-2xl overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-96 h-96 bg-gradient-radial from-indigo-500/20 via-purple-500/10 to-transparent rounded-full blur-3xl" />
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <div className="flex items-center justify-center mb-8">
+            <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center">
+              <ShoppingBag className="w-6 h-6 text-white" />
+            </div>
+          </div>
 
-        <div className="relative z-10 bg-black/90 backdrop-blur-md border border-gray-700 rounded-2xl p-8 shadow-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-radial from-indigo-400/10 via-transparent to-transparent opacity-60 pointer-events-none" />
-          <h2 className="text-3xl font-bold text-white text-center mb-8">
-            {isLogin ? "Login to FreelancerFi" : "Create an Account"}
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">
+            {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {!isLogin && (
               <div>
-                <label className="block text-gray-400 text-sm mb-1">
+                <label className="block text-gray-700 text-sm font-medium mb-2">
                   Full Name
                 </label>
-                <input
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  placeholder="John Doe"
-                  className="w-full px-4 py-2 rounded-lg bg-gray-900/80 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  required
-                />
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <User className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    placeholder="John Doe"
+                    className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    required
+                  />
+                </div>
               </div>
             )}
 
             <div>
-              <label className="block text-gray-400 text-sm mb-1">
+              <label className="block text-gray-700 text-sm font-medium mb-2">
                 Email Address
               </label>
-              <input
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="you@example.com"
-                className="w-full px-4 py-2 rounded-lg bg-gray-900/80 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                required
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Mail className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="you@example.com"
+                  className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  required
+                />
+              </div>
             </div>
 
             <div>
-              <label className="block text-gray-400 text-sm mb-1">
+              <label className="block text-gray-700 text-sm font-medium mb-2">
                 Password
               </label>
-              <input
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="••••••••"
-                className="w-full px-4 py-2 rounded-lg bg-gray-900/80 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                required
-              />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="w-full pl-10 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  required
+                />
+              </div>
             </div>
 
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
 
             <button
               type="submit"
-              className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-lg font-semibold transition duration-200"
+              className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-lg font-semibold transition duration-200 shadow-lg hover:shadow-xl"
             >
-              {isLogin ? "Login" : "Sign Up"}
+              {isLogin ? "Sign In" : "Create Account"}
             </button>
 
-            <div className="text-center mt-6 text-gray-400">
+            <div className="text-center mt-6 text-gray-600">
               {isLogin ? (
                 <>
                   Don&apos;t have an account?{" "}
                   <button
                     type="button"
                     onClick={() => setIsLogin(false)}
-                    className="text-indigo-400 hover:underline"
+                    className="text-indigo-600 hover:text-indigo-700 font-medium"
                   >
                     Sign Up
                   </button>
@@ -171,9 +191,9 @@ export default function AuthForm() {
                   <button
                     type="button"
                     onClick={() => setIsLogin(true)}
-                    className="text-indigo-400 hover:underline"
+                    className="text-indigo-600 hover:text-indigo-700 font-medium"
                   >
-                    Login
+                    Sign In
                   </button>
                 </>
               )}
